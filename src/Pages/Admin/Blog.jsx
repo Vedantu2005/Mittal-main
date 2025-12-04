@@ -4,7 +4,7 @@ import {
   Bold, Italic, Underline, List, ListOrdered, Link as LinkIcon,
   AlignLeft, AlignCenter, AlignRight, Calendar, Save, Loader, Link
 } from 'lucide-react';
-import Sidebar from './sidebar.jsx';
+import Sidebar from './sidebar';
 
 // FIREBASE IMPORTS
 import { db } from '../../firebase'; 
