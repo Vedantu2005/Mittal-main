@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Plus, Edit2, Trash2, Image as ImageIcon, User, Upload, X,
   Bold, Italic, Underline, List, ListOrdered, Link as LinkIcon,
-  AlignLeft, AlignCenter, AlignRight, Calendar, Save, Loader, Link
+  AlignLeft, AlignCenter, AlignRight, Calendar, Save, Loader, Link as LinkIconSmall
 } from 'lucide-react';
-import Sidebar from './sidebar';
+// ✅ FIXED IMPORT (Capital 'S')
+import Sidebar from './sidebar.jsx';
 
 // FIREBASE IMPORTS
 import { db } from '../../firebase'; 
@@ -25,7 +26,7 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
     author: '',
     content: '',
     imageUrl: '',
-    slug: '', // Slug state
+    slug: '',
   });
 
   // Helper to create URL-friendly slug
@@ -65,8 +66,6 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
     setFormData(prev => ({
       ...prev,
       title: newTitle,
-      // Only auto-update slug if we are NOT editing an existing post
-      // or if the user hasn't manually typed a custom slug yet (optional logic)
       slug: !editId ? createSlug(newTitle) : prev.slug
     }));
   };
@@ -100,7 +99,7 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
     const blogData = { 
       ...formData, 
       content: finalContent,
-      slug: finalSlug, // Save the specific slug
+      slug: finalSlug,
       date: displayDate,
       createdAt: serverTimestamp() 
     };
@@ -109,7 +108,6 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
       if (editId) {
         const blogDoc = doc(db, "blogs", editId);
         await updateDoc(blogDoc, blogData);
-        // Refresh local state
         setBlogs(blogs.map(b => b.id === editId ? { ...blogData, id: editId } : b));
       } else {
         await addDoc(blogsCollectionRef, blogData);
@@ -222,20 +220,20 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
                       <input
                         type="text"
                         value={formData.title}
-                        onChange={handleTitleChange} // Using the new handler
+                        onChange={handleTitleChange}
                         required
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-[#561C24]"
                         placeholder="e.g. The Future of Personal Branding"
                       />
                     </div>
 
-                    {/* NEW SLUG FIELD */}
+                    {/* SLUG FIELD */}
                     <div>
                       <label className="block text-slate-700 font-medium text-sm mb-2">
                         URL Slug (Editable)
                       </label>
                       <div className="flex items-center gap-2 w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus-within:border-[#561C24]">
-                        <LinkIcon size={16} className="text-slate-400 shrink-0" />
+                        <LinkIconSmall size={16} className="text-slate-400 shrink-0" />
                         <input
                           type="text"
                           value={formData.slug}
@@ -334,11 +332,13 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
                 key={blog.id}
                 className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-slate-100 relative"
               >
+                 {/* Admin Action Buttons */}
                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-30">
                   <button onClick={() => handleEdit(blog)} className="bg-white/90 p-2 rounded-full shadow-md hover:text-[#561C24] cursor-pointer text-slate-600 transition-colors"><Edit2 size={16} /></button>
                   <button onClick={() => handleDelete(blog.id)} className="bg-white/90 p-2 rounded-full shadow-md hover:text-red-600 cursor-pointer text-slate-600 transition-colors"><Trash2 size={16} /></button>
                 </div>
 
+                {/* Image Section */}
                 <div className="relative h-56 bg-slate-200">
                   {blog.imageUrl ? (
                     <img
@@ -353,6 +353,7 @@ const BlogManager = ({ setIsAdminLoggedIn }) => {
                   )}
                 </div>
 
+                {/* Content Container */}
                 <div className="p-6 flex flex-col flex-1">
                   
                   <div className="mb-3 flex items-center gap-2 text-xs font-semibold text-[#561C24]">
