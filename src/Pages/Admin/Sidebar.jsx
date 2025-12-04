@@ -9,7 +9,7 @@ const Sidebar = ({ setIsAdminLoggedIn }) => {
 
   const menuItems = [
     // { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/admin/blog', label: 'Blog', icon: BookOpen },
+    { path: '/admin/blogs', label: 'Blog', icon: BookOpen },
     // Add other items to match the screenshot if needed:
     // { path: '/admin/course', label: 'Course', icon: GraduationCap },
     // { path: '/admin/research', label: 'Research', icon: FileText },
