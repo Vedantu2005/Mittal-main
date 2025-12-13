@@ -4,7 +4,7 @@ import {
   Bold, Italic, Underline, List, ListOrdered, Link as LinkIcon,
   AlignLeft, AlignCenter, AlignRight, Calendar, Save, Loader, Link as LinkIconSmall
 } from 'lucide-react';
-// ✅ FIXED IMPORT (Capital 'S')
+
 import Sidebar from './sidebar.jsx';
 
 // FIREBASE IMPORTS
